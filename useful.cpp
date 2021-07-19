@@ -575,6 +575,15 @@ vector<vector<int>>floyd(vector<vector<int>>&adj){
 }
 //------------------------------------------------------------floyd warshall end
 
+bool IsCyclePresent(int src){
+    vis[src] = 1; // Grey mean still processing
+    for(auto v : adj[src]){
+        if(vis[v] == 1)return true; // backedge
+        if(vis[v] == 0 && IsCyclePresent(v))return true; // cycle in subtree
+    }
+    vis[src] = 2; // Black means subtree processed
+    return false;
+}
 
 int main(){
     int n; cin >> n;
