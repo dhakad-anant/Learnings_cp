@@ -103,7 +103,7 @@ vector<int> prefixFunction(string s) {
     return p;
 }
 
-bool binSearch(vector<int>a,int x){
+bool binarySearch(vector<int>a,int x){
     int n = a.size();
     int lo = 0;
     int hi = n-1;
@@ -358,14 +358,6 @@ for(int i=1 ; i*i <= G ; i++){
     }
 }
 */
-
-/*
-// Sort the array in descending order 
-    sort(arr, arr + n, greater<int>()); 
-*/
-
-// Sort the vector in descending order
-// sort(vect.rbegin() , vect.rend() );
 
 // printf("%.10f\n",ans/2.0);
 
