@@ -585,3 +585,7 @@ int main(){
     cout << endl;
     return 0;
 }
+
+
+//nCk % MOD
+//https://ideone.com/sctrLM
