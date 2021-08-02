@@ -108,8 +108,8 @@ bool binarySearch(vector<int>a,int x){
     int lo = 0;
     int hi = n-1;
     int mid;
-    while(hi > lo){
-        mid = (lo+hi)>>1;
+    while(lo <= h){
+        mid = lo + (hi - lo)/2;
         if(a[mid] == x)return true;
         else if(a[mid] < x){
             lo = mid+1;
@@ -117,7 +117,7 @@ bool binarySearch(vector<int>a,int x){
             hi = mid-1;
         }
     }
-    return (a[lo]==x);
+    return false;
 }
 //Longest common subsequence
 int LCS(string s1,string s2){
