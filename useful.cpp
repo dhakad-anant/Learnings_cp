@@ -241,6 +241,8 @@ int mod_pow(int x,int y,int p){ // (x^y)%p
     }   
     return res;
 }   
+
+
 //list of NEXT GREATER ELEMENT IN O(N)
 vi next_greater_element(vi a){
     int n = a.size();
@@ -262,6 +264,19 @@ vi next_greater_element(vi a){
     }
     return ans;
 }
+
+vi optimized_next_greater_element(vi a){ // here a is 1-index based (a1, a2, a3...)
+    int n = a.size();
+    vi r(n);
+    rrep(i, n-1, 0){
+        r[i] = i;
+        while(r[i] < n-1 && a[i] >= a[r[i]+1]){
+            r[i] = r[r[i]+1];
+        }
+    }
+    return r;
+}
+
 vi nearest_smaller_num_onLeft(vi a){
     int n = a.size();
     vi ans(n);
@@ -577,6 +592,23 @@ bool IsCyclePresent(int src){
     return false;
 }
 
+// BINARY LIFTING // nodes are zero indexed;
+const int mxN = 1e5;
+const int LOG = ceil(1.0*log2(mxN));
+vector<vector<int>>up(mxN, vector<int>(LOG));
+vector<int>depth(mxN);
+void PreComputationBinaryLifting(int u, int p){
+    up[u][0] = p;
+    depth[u] = depth[p] + 1;
+    for(int j=1; j<LOG; j++){
+        up[u][j] = up[ up[u][j-1] ][j-1];
+    }
+    for(auto v : g[u]){
+        if(v == p)continue;
+        PreComputationBinaryLifting(v, u);
+    }
+}
+
 int main(){
     int n; cin >> n;
     imap pf;
@@ -589,3 +621,7 @@ int main(){
 
 //nCk % MOD
 //https://ideone.com/sctrLM
+
+/* FOR MEX QUERIES
+ https://codeforces.com/blog/entry/81287?#comment-677837
+*/
