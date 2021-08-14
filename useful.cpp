@@ -609,6 +609,29 @@ void PreComputationBinaryLifting(int u, int p){
     }
 }
 
+int LCA(int u, int v){
+    if(depth[u] < depth[v])swap(u, v);
+    // 1) get the same depth 
+    int k = depth[u] - depth[v];
+    for(int i=LOG-1; i>=0; i--){
+        if(k & (1 << i))
+            u = up[u][i];
+        // if(depth[u] - depth[v] >= (1 << i))
+        //     u = up[u][i];
+    }
+    // 2) if v was ancestor of u then now u==v
+    if(u == v)return v;
+
+    // 3) move both u and v with powers of two
+    for(int i=LOG-1; i>=0; i--){
+        if(up[u][i] != up[v][i]){
+            u = up[u][i];
+            v = up[v][i];
+        }
+    }
+    return up[u][0];
+}
+
 int main(){
     int n; cin >> n;
     imap pf;
