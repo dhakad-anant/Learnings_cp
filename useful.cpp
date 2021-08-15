@@ -592,7 +592,7 @@ bool IsCyclePresent(int src){
     return false;
 }
 
-// BINARY LIFTING // nodes are zero indexed;
+//------------------------------- BINARY LIFTING // nodes are zero indexed; -------------------------------
 const int mxN = 1e5;
 const int LOG = ceil(1.0*log2(mxN));
 vector<vector<int>>up(mxN, vector<int>(LOG));
@@ -631,6 +631,186 @@ int LCA(int u, int v){
     }
     return up[u][0];
 }
+//------------------------------- BINARY LIFTING ends -------------------------------
+
+//------------------------------- SEGMENT TREE TEMPLATES ------------------------------- 
+class LazySegTree{
+public:
+    /* NOTATIONS
+        si - Index of current node in segment tree 
+             Initial value is passed as 0.
+        [ss, se] - Starting and ending indexes of array elements 
+                   covered under this node of segment tree.
+                   Initial values passed as 0 and n-1.
+        [qs, qe] - Starting and ending indexes of query.
+        [us, ue] - Starting and ending indexes of update query.
+    */
+    int n;
+    vector<int> tree;
+    vector<int> lazy;
+    int lazy_init = 0;
+
+    //initializing segment tree
+    LazySegTree(int x){
+        n = x;
+        tree.resize(4*n + 5, 0);
+        lazy.resize(4*n + 5, lazy_init);
+    }
+    
+    void build(int si, int ss, int se, vector<int>&a){
+        if(ss == se){
+            tree[si] = a[ss];
+            return;
+        }
+        int left = 2*si;
+        int right= left+1;
+        int mid = ss + (se-ss)/2;
+        build(left, ss, mid, a);
+        build(right, mid+1, se, a);
+        // tree[si] = tree[left] + tree[right];
+        tree[si] = min(tree[left], tree[right]);
+    }
+
+    void push_down(int si, int ss, int se){
+        if(lazy[si] != lazy_init){
+            tree[si] += (se-ss+1)*lazy[si]; // in case of sum segment tree
+            // tree[si] += lazy[si];
+            if(ss != se){
+                lazy[2*si] += lazy[si];
+                lazy[2*si + 1] += lazy[si];
+            }
+            lazy[si] = lazy_init;
+        }
+    }
+
+    void update(int us, int ue, int val){
+        _update(1, 0, n-1, us, ue, val);
+    }
+    void _update(int si, int ss, int se, int us, int ue, int val){
+        // first make any pending updates.
+        push_down(si, ss, se);
+
+        //no intersection
+        if(ss > se || ss > ue || se < us)return;
+
+        //complete overlap
+        if(us <= ss && se <= ue){
+            lazy[si] += val;
+            push_down(si, ss, se);
+            return;
+        }
+        //some overlap
+        int left = 2*si;
+        int right= left+1;
+        int mid = ss + (se-ss)/2;
+        _update(left, ss, mid, us, ue, val);
+        _update(right, mid+1, se, us, ue, val);
+        // tree[si] = tree[left] + tree[right];
+        tree[si] = min(tree[left], tree[right]);
+    }
+
+    int query(int qs, int qe){
+        return _q(1, 0, n-1, qs, qe);
+    }
+    int _q(int si, int ss, int se, int qs, int qe){
+        // first make any pending updates.
+        push_down(si, ss, se);
+
+        //no intersection
+        if(ss > se || ss > qe || se < qs)return 0;
+
+        //complete overlap
+        if(qs <= ss && se <= qe){
+            return tree[si];
+        }
+        //some overlap
+        int left = 2*si;
+        int right= left+1;
+        int mid = ss + (se-ss)/2;
+        int q1 = _q(left, ss, mid, qs, qe);
+        int q2 = _q(right, mid+1, se, qs, qe);
+        // return q1 + q2;
+        return min(q1, q2);
+    }
+};
+class SegTree{
+public:
+    /* NOTATIONS
+        si - Index of current node in segment tree 
+             Initial value is passed as 0.
+        [ss, se] - Starting and ending indexes of array elements 
+                   covered under this node of segment tree.
+                   Initial values passed as 0 and n-1.
+        [qs, qe] - Starting and ending indexes of query.
+        [us, ue] - Starting and ending indexes of update query.
+    */
+    int n;
+    vector<int> tree;
+
+    //initializing segment tree
+    SegTree(int x){
+        n = x;
+        tree.resize(4*n + 5, 0);
+    }
+
+    void build(int si, int ss, int se, vector<int>&a){
+        if(ss == se){
+            tree[si] = a[ss];
+            return;
+        }
+        int left = 2*si;
+        int right= left+1;
+        int mid = ss + (se-ss)/2;
+        build(left, ss, mid, a);
+        build(right, mid+1, se, a);
+        // tree[si] = tree[left] + tree[right];
+        tree[si] = min(tree[left], tree[right]);
+    }
+
+    void update(int us, int ue, int val){
+        _update(1, 0, n-1, us, ue, val);
+    }
+    void _update(int si, int ss, int se, int us, int ue, int val){
+        //no intersection
+        if(ss > se || ss > ue || se < us)return;
+
+        //complete overlap
+        if(us <= ss && se <= ue){
+            tree[si] = val;
+            return;
+        }
+        //some overlap
+        int left = 2*si;
+        int right= left+1;
+        int mid = ss + (se-ss)/2;
+        _update(left, ss, mid, us, ue, val);
+        _update(right, mid+1, se, us, ue, val);
+        // tree[si] = tree[left] + tree[right];
+        tree[si] = min(tree[left], tree[right]);
+    }
+
+    int query(int qs, int qe){
+        return _q(1, 0, n-1, qs, qe);
+    }
+    int _q(int si, int ss, int se, int qs, int qe){
+        //no intersection
+        if(ss > se || ss > qe || se < qs)return 0;
+
+        //complete overlap
+        if(qs <= ss && se <= qe){
+            return tree[si];
+        }
+        //some overlap
+        int left = 2*si;
+        int right= left+1;
+        int mid = ss + (se-ss)/2;
+        int q1 = _q(left, ss, mid, qs, qe);
+        int q2 = _q(right, mid+1, se, qs, qe);
+        // return q1 + q2;
+        return min(q1, q2);
+    }
+};
+//------------------------------- SEGMENT TREE TEMPLATES ENDS------------------------------- 
 
 int main(){
     int n; cin >> n;
