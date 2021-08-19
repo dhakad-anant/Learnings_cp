@@ -812,6 +812,36 @@ public:
 };
 //------------------------------- SEGMENT TREE TEMPLATES ENDS------------------------------- 
 
+class DSU{
+public:
+    // 1 indexed;
+    int n;
+    vector<int>p;
+    // vector<int>sz;
+    DSU(int _n){
+        n = _n;
+        p.resize(n+1, -1);
+        // p.resize(n+1);iota(all(p), 0);
+        // sz.resize(n+1, 1);
+    }
+    int leader(int i){
+        if(p[i] < 0)return i;
+        // if(p[i] == i)return i;
+        return p[i] = leader(p[i]);
+    }
+    void merge(int pu, int pv){
+        if(p[pu] > p[pv])swap(pu, pv);
+        // pu is a bigger component;
+        p[pu] += p[pv];
+        p[pv] = pu;
+
+        // if(sz[pu] < sz[pv])swap(pu, pv);
+        // // pu is a bigger component;
+        // sz[pu] += sz[pv];
+        // p[pv] = pu;
+    }
+};
+
 int main(){
     int n; cin >> n;
     imap pf;
