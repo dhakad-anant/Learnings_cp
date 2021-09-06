@@ -54,9 +54,7 @@ using namespace std;
 // Driver function to sort the vector elements 
 // by second element of pairs 
 // -- IN ASCENDING ORDER --
-bool sortbysec(const pair<int,int> &a, 
-              const pair<int,int> &b) 
-{ 
+bool sortbysec(const pair<int,int> &a, const pair<int,int> &b) { 
     return (a.second < b.second); 
 }
 
@@ -88,20 +86,47 @@ void cntprimefact(){
     }
 }
 
-vector<int> prefixFunction(string s) {
-    int n = s.length();
-    vector<int> p(n, 0);
-    int j = 0;
-    for (int i = 1; i < n; i++) {
-        while (j > 0 && s[j] != s[i])
-            j = p[j-1];
+// ----------------- string matching algorithm kmp starts here -----------------
+vector<int>prefix_function(string s){
+    int n = s.size();
+    vector<int>p(n, 0);
+    int j;
+    for(int i=1; i<n; i++){
+        j = p[i-1];
+        while(j > 0 && s[i] != s[j])j = p[j-1];
 
-        if (s[j] == s[i])
-            j++;
+        if(s[i] == s[j])j++;
         p[i] = j;
-    }   
+    }
     return p;
 }
+int KMPSearch(string txt, string pat){ // return number of times pat is found in txt;
+    vector<int>lps = prefix_function(pat);
+    int n = txt.length();
+    int m = pat.length();
+    int cnt = 0;
+    int i=0, j=0;
+    while(i < n){
+        if(pat[j] == txt[i]){
+            i++;j++;
+        }
+        if(j == m){
+            cnt++;
+            j = lps[j-1];
+            continue;
+        }
+        if(j>0 && pat[j] != txt[i]){
+            j = lps[j-1];
+        }else if(pat[j] != txt[i]){
+            i++;
+        }
+    }
+    return cnt;
+}
+// ----------------- string matching algorithm kmp ends here -----------------
+
+
+
 
 bool binarySearch(vector<int>a,int x){
     int n = a.size();
@@ -174,8 +199,7 @@ bool U(int sz[],int parent[],int x,int y){
     return true;
 }
 
-bool isPrime(int n) 
-{ 
+bool isPrime(int n) { 
     // Corner cases 
     if (n <= 1) return false; 
     if (n <= 3) return true; 
@@ -189,8 +213,8 @@ bool isPrime(int n)
     } 
     return true; 
 } 
-void Factorization(int n,imap & pfactorfreq)  
-{  
+
+void Factorization(int n,imap & pfactorfreq){  
     // Print the number of 2s that divide n  
     int c = 0;
     while (n % 2 == 0){ 
@@ -576,9 +600,23 @@ struct mod_int {
 
 
 //----------------------------------------------------------------floyd warshall
-vector<vector<int>>floyd(vector<vector<int>>&adj){
+void floyd(vector<vector<int>>&dp){
+    // i->i is zero
+    // i->j if there is no such edge then dp[i, j] = INT_MAX;
     int n = adj.size();
     
+    //selecting the intermediate set as {0, 1, 2, ..k}
+    for(int k=0; k<n; k++){ 
+        //selecting the source vertex i 
+        for(int i=0; i<n; i++){
+            //selecting the source vertex j
+            for(int j=0; j<n; j++){
+                if(dp[i][k] != INT_MAX && dp[k][j] != INT_MAX){
+                    dp[i][j] = min(dp[i][j], dp[i][k]+dp[k][j]);
+                }
+            }
+        }
+    }
 }
 //------------------------------------------------------------floyd warshall end
 
@@ -733,6 +771,7 @@ public:
         return min(q1, q2);
     }
 };
+
 class SegTree{
 public:
     /* NOTATIONS
