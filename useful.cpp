@@ -126,6 +126,25 @@ int KMPSearch(string txt, string pat){ // return number of times pat is found in
 // ----------------- string matching algorithm kmp ends here -----------------
 
 
+// ----------------- Generating all subsets using recursion. .//BEGINS -----------------
+vector<int>subset;
+void genAllSubsets(int a[], int idx, int n){
+    if(idx == n){
+        // Print current subset.
+        for(auto x : subset)cout << x << " ";
+        cout<<endl;
+    }else{
+        // Include a[idx]
+        subset.push_back(a[idx]);
+        genAllSubsets(a, idx+1, n);
+
+        // Exclude a[idx]
+        subset.pop_back();
+        genAllSubsets(a, idx+1, n);
+    }
+}
+// ----------------- Generating all subsets using recursion. .//ENDS -----------------
+
 
 
 bool binarySearch(vector<int>a,int x){
