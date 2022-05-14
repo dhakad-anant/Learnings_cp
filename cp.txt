@@ -1,0 +1,159 @@
+In competitive programming there are a few areas which I should think if I didn't get the problem 
+at once - 
+
+1. Think of GREEDY APPROACH at first without delay. If found a GREEDY STRATEGY, then congrats.
+    (Thinking of a good greedy strategy is important)
+
+    a) Applying a greedy strategy may include the use of some data structures especially set and multiset.
+    b) set questions are very dominant in this domain.
+    c) Sometimes there is an obvious greedy strategy but you dont know the proof.
+
+2. BINARY SEARCH questions - 
+    i. There is a monotonical tendency in the answer. 
+       Like if this is possible for X then also for all values greater than X.
+    ii. Answer lies in an interval.
+
+3. Number Theory Questions
+
+    a) Think of modulo operation first (Most of the times this has worked out)
+
+4. If there is NO GREEDY STRATEGY ----------
+
+    a) Think of DYNAMIC PROGRAMMING (Most of the times it has worked)
+    b) Think of the data structures that you can use ---
+        i) SET, MULTISET
+        ii) ORDERED_SET, ORDERED_MULTISET
+
+5. In questions where you are asked to consider all POSSIBLE SUBARRAYS of the array----
+
+    a) Think of MAP - like MAPPING to a point and then making sense of the number of subarrays
+        using the number of pointings.
+    b) Sometimes, TWO POINTER APPROACH helps out in this case.
+
+6. In ORDERED_SET questions -------------
+
+    a) There is a lot of questions that one can answer using that
+        just use the functions find_by_order and order_of_key with cautious parameter values.
+    b) Think of possible ways to iterating the array (from back too) and pushing consecutively.
+    c) See what sense it makes out.
+
+7. Masking Technique ---------------------------
+
+    a) Sometimes, we are required to identify a set of elements that will constitute the final answer.
+    b) The final answer is some operation of the elements, for example, or, sum, and, etc.
+    c) For example, let's take the OR operation. We know that the bit at higher indexes is most important.
+    d) You are given an array and you need to choose n - 1 elements such that their or is the minimum possible.
+    e) In these type of question where we need to identify or choose elements, we know that we need to give priority to higher indices.
+    f) So, what we can do is that - Try to pick elements with their 30th bit 0.
+    g) If it is not possible, you are sure that the answer will have 30th bit on.
+    h) But if it is possible, then you must only consider those array elements now that have their 30th bit off.
+    i) Hence, we can create a mask that will have its 30th bit on so that next we do the same for 29th bit, we consider only those with 30th bit off.
+
+8. In STRING related questions where permutation of string is considered ----
+
+    a) Think of INVERSION NUMBER
+
+9. Some points about TREES -------------------------
+
+    a) LCA and Binary Lifting are crucial concepts.
+    b) Distance(number of edges) between any two nodes can be found as 
+        dist(a,b)=depth[a]+depth[b]-2*depth[lca(a,b)]
+    c) Between two nodes the middle node can be found in logn time as follows -------
+        mid_node = binary_lifting from node of greater depth 
+        int tr=dist/2;
+        if(depth[a]>depth[b]) swap(a,b);
+        opp(i,LIM+1){
+            if(tr>=(1ll<<i)){
+                tr-=(1ll<<i);
+                node=dp[node][i];
+            }
+        }
+        if(dist&1){
+            node and parent of node are the middle node.
+        }
+        else{
+            node is the middle node
+        }
+    d) There is standard way to compute sum of all distances of all node pairs in a tree.
+
+        int ans=0;
+        vi subtree_size(n);
+        void dfs(int node,int par,vvi& adj){
+            subtree_size[node]++;
+            for(auto j:adj[node]){
+                if(j==par) continue;
+                dfs(j,node,adj);
+                subtree_size[node]+=subtree_size[j];
+            }
+            ans+=(subtree_size[node]*(n-subtree_size[node]));
+        }
+        // ans is the sum of distances of all node pairs in the tree.
+
+10. Some points about GRID QUESTIONS (IMPORTANT) -----------------------
+
+    a) The number of steps required to visit a cell from another cell depends on the parity of the
+       two cells. If the cells are of same parity then even number of steps else odd.
+       Movement is side-by-side not diagonal.
+    b) Most of the times in grid questions remember two things ---------
+        i) Cells with SAME PARITY may play a role.
+        ii) Cells with same sum of row and col number may lead to the solution.
+        iii) CHESS COLORING may lead to the solution
+    c) There is something called prefix sum on a grid. 
+
+11. For median questions the approach is most of the times binary search think from this approach first.
+    i. In median questions, you should keep in mind that if before median was smaller and now one 
+        is bigger and you are allowed to add atmost two elements then u must add two elements greater
+        than or equal to the desired one. Similarly for smaller ones.
+
+12. NUMBER OF WAYS TO ARRANGE TWO TYPES OF OBJECTS - 
+    i. You can map addition of one type of object like a move in x-direction and similarly the addition
+        of second type of object like a move in y-direction. And then visualize the situation.
+
+13. MAXIMUM FLOW PROBLEM - 
+    i. This scenario when a particular resource or some grid position can be used atmost once.
+    ii. Real life situations may occur where a particular thing can be used or taken by atmost one
+        person and maximum number of usability is required to be known. 
+
+14. For a undirected graph to exist this criteria should be followed always:
+    2 * Number of edges = sum of degree of the nodes.
+
+15. The maximum number of factors of a number till 10^12 is 4096.
+    
+ONE OF YOUR BIG PROBLEMS - 
+    i. You become a lot process oriented like if this will solve like this then it should happen
+        process wise. 
+    ii. ITS NOT LIKE THAT YOU NEED TO DO IT PROCESS WISE. JUST ANALYSE
+        WHAT CONDITION SHOULD BE PUT IN THE DATA PROVIDED THAT THERE WILL NO PROBLEM IN DOING
+        IT IN STEP WISE.
+
+
+PROPERTIES OF MODULO OPERATION - 
+
+    a. If it given that a_i mod M, a_(i+1) mod M, ..., a_j mod M (M>1) need to be same then 
+       keep in mind that the difference array so generated 
+       a_i - a_(i+1), a_(i+1) - a_(i+2), ..., a_(j-1) - a_j 
+       will have gcd greater than 1.
+
+        Proof :-
+
+        a_i = M * x1 + r => a_i - r = M * x1
+        a_(i+1) = M * x2 + r => a_(i+1) - r = M * x2
+        a_(i+2) = M * x3 + r => a_(i+2) - r = M * x3
+
+        Thus when the remainders are removed then gcd will be M(>1);
+
+    b. If you need to change value a to any other value b using modulo operation with any M then
+       it is possible only when a - b > b.
+
+    c. This equation is really helpful when it comes to MODULO Operation - 
+
+        A = B * C + REM => A - REM = B * C
+
+
+ARRAY ROTATION - 
+
+    a. If the array is rotated by k position to the right like this -
+
+       1 2 3 4 --> 4 1 2 3 (1 position to the right)
+
+       then a_new[i] = a[(i - k + n)% n] i.e. new indices are (i - k) % n.
