@@ -1,0 +1,18 @@
+>> GROUP_CONCAT:
+concatenates a query’s result set into a list separated by either a comma, or a delimiter of your choice.
+refer: https://database.guide/how-to-return-query-results-as-a-comma-separated-list-in-mysql/
+
+>> Wildcards:
+	ex: 
+	// city starting with ber
+	SELECT * FROM Customers WHERE City LIKE 'ber%';
+	
+>> UNION: 
+	this operator is used to combine the result-set of two or more queries.
+	
+>> NULL:
+	to for null values use 'IS' or 'IS NOT';
+	
+	
+	
+	
