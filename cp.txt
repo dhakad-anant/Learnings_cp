@@ -2,19 +2,20 @@
     1. If there is +1/-1 at every step. Let the range of sum of path be (min, max) from (0,0) to (n, n)
        Then every number btw (min, max) can be attained as a sum of path.
     2. let f(i, j) be the number of ways to go from (0, 0) to (i, j), only going down or right by 1 step. 
-        Then f(i, j) == (i+j)_C_j
+       Then f(i, j) == (i+j)_C_j
 
 >> DYNAMIC PROGRAMMING:
-	1. Always start thinking recursively (first think of a top-down approach) and then tabulize it.
+	1. Always start thinking recursively. First think of a top-down approach. Then Memomize it.
+	2. (Optional) then if easy & possible --> tabulize it.
+	3. In GRID PROBLEMS, think of dfs to get recursive relation.
 	
-
 >> USES of HashMap:
 	1. Count number of subarrays in a binary array in which 0's and 1's are in the ratio x : y ??
 		- here the equation  ( x * prefixOneCnt + y * prefixZeroCnt = constant ) (use hashmap).
 		
 >> Binary Search Trees:
 	1. Height-balanced BST can be constructed if the whole array of nodes (sorted) is given. We can use 
-	divide&conquer to build Height-balanced BST.
+	   divide&conquer to build Height-balanced BST.
 	
 >> Lower_bound & Upper_bound:
 	1. idx = lower_bound(all(array), val); ---> array[idx] >= val;
@@ -28,4 +29,14 @@
 		- Return -1 if a cycle is detected in the graph.
 		- otherwise keeping adding black nodes to the answer.
 
->> 
+>> Lowest Common Ancestor (LCA):
+	1. https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/ (see all approaches in 
+       solution. Specially the non-parent iterative solution).
+	2. 
+
+>> Priority_queue / Heap:
+	1. Can be used to make choices greedily in greedy problems.
+	
+>> Disjoint Set Union (DSU):
+	1. Whenever there is some transitive property(if a->b && b->c then a->c)...think of using DSU in it.
+	
