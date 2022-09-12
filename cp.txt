@@ -9,6 +9,23 @@
 	2. (Optional) then if easy & possible --> tabulize it.
 	3. In GRID PROBLEMS, think of dfs to get recursive relation.
 	
+>> Problem Solving:
+	1. Read the statement carefully.
+	2. Try out a the given examples
+	3. If cannot come up with a solution 
+		- either again try out with the examples.
+		- try to make examples of your own.
+		- think how to solve a smaller (by may solving for k=1 or some number)
+	4. If get WA --> 
+		- check code.
+		- (if code correct) rethink about the startegy.
+		- solve more examples
+	
+	5. GEOMETRY REQUIRES VISUALIZATION.
+	6. BINARY SEARCH demands an eye.
+	7. DP requires practiceee.
+	8. GRAPH, a perspective. (Change graph to something suitable accordnig to given constraints)
+
 >> USES of HashMap:
 	1. Count number of subarrays in a binary array in which 0's and 1's are in the ratio x : y ??
 		- here the equation  ( x * prefixOneCnt + y * prefixZeroCnt = constant ) (use hashmap).
@@ -40,3 +57,17 @@
 >> Disjoint Set Union (DSU):
 	1. Whenever there is some transitive property(if a->b && b->c then a->c)...think of using DSU in it.
 	
+>> Range Updates:
+	1. Linear: Update -> {dp[l]+=1, dp[r+1]-=1}.....and if the queries are from 1 to n...
+	we can cumulate the updates like dp[i] += dp[i-1] ..while traversing from 1 to n.
+	( https://www.codechef.com/submit/KLIP?tab=statement )
+	2. 
+
+>> XOR:
+	1. Think in terms of bits.
+	
+>> Depth-First-Search (DFS):
+	1. It is basically recursion.
+
+>> Breadth-First-Search (BFS):
+	1. Involves queue.
